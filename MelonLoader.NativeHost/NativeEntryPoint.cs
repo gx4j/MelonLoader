@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;
@@ -8,6 +8,25 @@ namespace MelonLoader.NativeHost;
 
 internal static unsafe class NativeEntryPoint
 {
+    // 🔹 NEW: static constructor to set DOTNET_ROOT before anything else
+    static NativeEntryPoint()
+    {
+        try
+        {
+            // BaseDirectory should be the game folder at runtime
+            string baseDir = AppContext.BaseDirectory;
+            string runtimePath = Path.Combine(baseDir, "MelonLoader", "dotnet");
+
+            Environment.SetEnvironmentVariable("DOTNET_ROOT", runtimePath);
+            Environment.SetEnvironmentVariable("DOTNET_ROOT(x86)", runtimePath);
+            Environment.SetEnvironmentVariable("DOTNET_BUNDLE_EXTRACT_BASE_DIR", runtimePath);
+        }
+        catch
+        {
+            // Swallow errors to avoid breaking startup if something goes wrong
+        }
+    }
+
     // Prevent GC
     private static Action? startDel;
 
