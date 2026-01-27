@@ -18,10 +18,10 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Install MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Install Visual Studio Build Tools
-      uses: microsoft/setup-vsbuild@v1
+      uses: microsoft/setup-vs@v2
 
     - name: Restore NuGet packages
       run: nuget restore MelonLoader.sln
@@ -30,7 +30,7 @@ jobs:
       run: msbuild MelonLoader.sln /p:Configuration=Release /p:Platform=x64
 
     - name: Upload built DLLs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: MelonLoader-Build
         path: |
