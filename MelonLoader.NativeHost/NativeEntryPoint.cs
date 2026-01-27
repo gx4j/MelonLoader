@@ -8,7 +8,6 @@ namespace MelonLoader.NativeHost;
 
 internal static unsafe class NativeEntryPoint
 {
-    // 🔹 NEW: static constructor to set DOTNET_ROOT before anything else
     static NativeEntryPoint()
     {
         try
