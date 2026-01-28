@@ -12,7 +12,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Install .NET 6 SDK (runtime is already included)
     - name: Install .NET 6 SDK
       uses: actions/setup-dotnet@v4
       with:
@@ -21,25 +20,11 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    # Force restore to use .NET 6 runtime + SDK
     - name: Restore NuGet packages
-      env:
-        DOTNET_ROOT: C:\Program Files\dotnet\
-        DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR: C:\Program Files\dotnet\sdk\6.0.428\
       run: nuget restore MelonLoader.sln
 
-    # Build using .NET 6 runtime (NOT .NET 10)
     - name: Build MelonLoader (Release x64)
-      env:
-        DOTNET_ROOT: C:\Program Files\dotnet\
-        DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR: C:\Program Files\dotnet\sdk\6.0.428\
-      run: >
-        msbuild MelonLoader.sln
-        /p:Configuration=Release
-        /p:Platform=x64
-        /p:RuntimeIdentifier=win-x64
-        /p:SelfContained=false
-        /p:UseCurrentRuntimeIdentifier=False
+      run: msbuild MelonLoader.sln /p:Configuration=Release /p:Platform=x64
 
     - name: Upload built DLLs
       uses: actions/upload-artifact@v4
