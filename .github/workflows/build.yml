@@ -24,7 +24,7 @@ jobs:
       run: nuget restore MelonLoader.sln
 
     - name: Build MelonLoader (Release x64)
-      run: msbuild MelonLoader.sln /p:Configuration=Release /p:Platform=x64
+      run: msbuild MelonLoader.sln /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64
 
     - name: Upload built DLLs
       uses: actions/upload-artifact@v4
