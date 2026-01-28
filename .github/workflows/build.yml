@@ -20,13 +20,14 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Restore NuGet packages
+    - name: Restore (MSBuild, not NuGet)
       run: >
-        nuget restore MelonLoader.sln
-        -Properties Platform=x64
-        -Properties RuntimeIdentifier=win-x64
-        -Properties UseCurrentRuntimeIdentifier=False
-        -Properties SelfContained=False
+        msbuild MelonLoader.sln
+        /t:Restore
+        /p:Platform=x64
+        /p:RuntimeIdentifier=win-x64
+        /p:UseCurrentRuntimeIdentifier=False
+        /p:SelfContained=false
 
     - name: Build MelonLoader (Release x64)
       run: >
