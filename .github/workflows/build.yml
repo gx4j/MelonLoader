@@ -21,10 +21,21 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Restore NuGet packages
-      run: nuget restore MelonLoader.sln
+      run: >
+        nuget restore MelonLoader.sln
+        -Properties Platform=x64
+        -Properties RuntimeIdentifier=win-x64
+        -Properties UseCurrentRuntimeIdentifier=False
+        -Properties SelfContained=False
 
     - name: Build MelonLoader (Release x64)
-      run: msbuild MelonLoader.sln /p:Configuration=Release /p:Platform=x64
+      run: >
+        msbuild MelonLoader.sln
+        /p:Configuration=Release
+        /p:Platform=x64
+        /p:RuntimeIdentifier=win-x64
+        /p:UseCurrentRuntimeIdentifier=False
+        /p:SelfContained=false
 
     - name: Upload built DLLs
       uses: actions/upload-artifact@v4
